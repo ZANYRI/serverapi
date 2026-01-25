@@ -1,10 +1,10 @@
 package main
 
 import (
-	"ai-api/env"
+	"ai-api/request"
 	"fmt"
 )
 
 func main() {
-	fmt.Print(env.LoadEnv("GEMINI_KEY"))
+	fmt.Print(request.TestFunc("GEMINI_API_KEY"))
 }
