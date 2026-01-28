@@ -9,7 +9,7 @@ import (
 )
 
 func TestFunc(name_key string) string{
-    key, _ := env.LoadEnv("GEMINI_API_KEY")
+    key, _ := env.LoadEnv(" ")
 
     body := `{
     "contents": [
@@ -42,5 +42,5 @@ func TestFunc(name_key string) string{
     respBody, _ := io.ReadAll(resp.Body)
     q := string(respBody)
 
-	return q
+	return q 
 }
