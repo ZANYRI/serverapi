@@ -9,7 +9,7 @@ import (
 	"ai-api/env"
 )
 
-func TestFunc(name_key, message string) string {
+func RequestToGemini(name_key, message string) string {
 
 	key, _ := env.LoadEnv(name_key) 
 
