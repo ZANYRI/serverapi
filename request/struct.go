@@ -1,7 +1,7 @@
 package request
 
 type Text struct {
-	Text string `json:"text"`
+	Texts string `json:"text"`
 }
 
 type Part struct {
@@ -9,5 +9,5 @@ type Part struct {
 }
 
 type Content struct{
-	Contents []Parts `json:"contents"`
+	Contents []Part  `json:"contents"`
 }

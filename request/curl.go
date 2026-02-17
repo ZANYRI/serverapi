@@ -1,46 +1,45 @@
 package request
 
 import (
+	"bytes"
+	"encoding/json"
 	"io"
 	"net/http"
-	"strings"
 
 	"ai-api/env"
 )
 
-func TestFunc(name_key string) string{
-    key, _ := env.LoadEnv(" ")
+func TestFunc(name_key, message string) string {
+	key, _ := env.LoadEnv(name_key)
 
-    body := `{
-    "contents": [
-      {
-        "parts": [
-          {
-            "text": "Что делаешь?"
-          }
-        ]
-      }
-    ]
-  }`
+	body := new(Content)
+	body.Contents = []Part{
+		{
+			Parts: []Text{
+				{Texts: message},
+			},
+		},
+	}
+	fbody, _ := json.Marshal(body)
 
-    req, err := http.NewRequest("POST", "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent", 
-        strings.NewReader(body))
-    if err != nil {
-        panic(err)
-    }
+	req, err := http.NewRequest("POST", "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent",
+		bytes.NewReader(fbody))
+	if err != nil {
+		panic(err)
+	}
 
-    req.Header.Set("Content-Type", "application/json")
-    req.Header.Set("x-goog-api-key", key)
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("x-goog-api-key", key)
 
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        panic(err)
-    }
-    defer resp.Body.Close()
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
 
-    respBody, _ := io.ReadAll(resp.Body)
-    q := string(respBody)
+	respBody, _ := io.ReadAll(resp.Body)
+	q := string(respBody)
 
-	return q 
+	return q
 }

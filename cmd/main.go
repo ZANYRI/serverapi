@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	fmt.Print(request.TestFunc("GEMINI_API_KEY"))
+	fmt.Print(request.TestFunc("GEMINI_API_KEY", "Напиши мне привет мир на Golang"))
 }
