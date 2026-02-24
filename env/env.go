@@ -1,21 +1,28 @@
 package env
 
 import (
-	"log"
+	"fmt"
 	"os"
 
-	"github.com/joho/godotenv"
 )
 
-func LoadEnv(provider string) (result string, err error) {
+var ProviderToEnvKey = map[string]string{
+    "GEMINI":   "GEMINI_KEY",
+    "GIGACHAT": "GIGACHAT_KEY",
+}
 
-	err = godotenv.Load("./env/.env")
+func GetAPIKey(provider string) (string, error) {
+    envKey, ok := ProviderToEnvKey[provider]
+    if !ok {
+        return "", fmt.Errorf("unknown provider: %s", provider)
+    }
+    return GetEnvOrError(envKey)
+}
 
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	result = os.Getenv(provider)
-
-	return result, err
+func GetEnvOrError(v string) (string, error) {
+    result := os.Getenv(v)
+    if result == "" {
+        return "", fmt.Errorf("environment variable %s is not set", v)
+    }
+    return result, nil
 }
