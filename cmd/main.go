@@ -2,11 +2,15 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 
-  "ai-api/router"
+	"ai-api/router"
 )
 
 func main() {
+
+	godotenv.Load("./env/config.env")
+
 	r := gin.Default()
 
 	r.Use(func(c *gin.Context) {
