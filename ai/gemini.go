@@ -2,7 +2,6 @@ package ai
 
 import (
 	"context"
-	"log"
 
 	"google.golang.org/genai"
 
@@ -12,11 +11,9 @@ import (
 
 func RequestToGemini(request *data.Request) (string, error) {
 
-
-
-	key, err := env.LoadEnv(request.Provider)
+	key, err := env.GetAPIKey(request.Provider)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	ctx := context.Background()
@@ -27,7 +24,7 @@ func RequestToGemini(request *data.Request) (string, error) {
 
 	client, err := genai.NewClient(ctx, &cc)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	result, err := client.Models.GenerateContent(
@@ -37,7 +34,7 @@ func RequestToGemini(request *data.Request) (string, error) {
 		nil,
 	)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	res := result.Text()

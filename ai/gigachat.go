@@ -1,8 +1,6 @@
 package ai
 
 import (
-	"log"
-
 	"ai-api/env"
 
 	gigachat "github.com/tigusigalpa/gigachat-go"
@@ -10,9 +8,9 @@ import (
 )
 
 func RequestToGigaChat(request *data.Request) (string, error) {
-	key, err := env.LoadEnv(request.Provider)
+	key, err := env.GetAPIKey(request.Provider) 
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	tokenManager := gigachat.NewTokenManager(key)
@@ -24,7 +22,7 @@ func RequestToGigaChat(request *data.Request) (string, error) {
 
 	response, err := client.Chat(messages, gigachat.WithModel(request.Model))
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	res := response.Choices[0].Message.Content
